@@ -1,0 +1,13 @@
+# Lines starting with # are ignored as comments
+# Each line is comma separated
+# This simple approach means it can be Question, ChoiceA, ChoiceB, etc.
+# We use the notion that the first choice is the answer.
+What is 1+1?, 2, 1, 3, 4
+What is your favorite color?, Yellow, Blue, Green, Red, Orange, Magenta
+What is the capital of France?, Paris, Europe, London, Marseille
+
+# If your question or answer has a comma in it, use quotes
+"So, which algorithm is faster for sorting in general?", Merge Sort, Bubble Sort, Selection Sort, Insertion Sort, Shell Sort
+
+# We could also have a different format that supported HTML based questions for more versatility.
+# But then I would recommend using an XML parser and being more flexible with everything.
