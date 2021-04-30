@@ -16,9 +16,12 @@ public class Player {
     //  The ClientConnection is sufficient (if following the NetworkGame practice done for the AGAR.IO version)
     //  Ultimately, the Player would not store a reference to TriviaNite since there would be a Connection across the Network
     //  between them.
-    transient TriviaNite client;   // If keeping this for the networking version, this PROBABLY should not be serialized.
-    public Player(TriviaNite client, String name) {
-        this.client = client;
+    transient TriviaNite guiClient;   //If keeping this for the networking version, this PROBABLY should not be serialized.
+    private ClientToServerConnection client;
+    public Player(TriviaNite guiClient, String name) {
+     //   this.client = client;
+        this.guiClient = guiClient;
+        this.client = new ClientToServerConnection();
         this.name = name;
         this.score = 0;
     }

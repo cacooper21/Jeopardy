@@ -1,29 +1,41 @@
+import java.io.*;
+import java.net.*;
+import java.util.HashSet;
 public class GameServer implements Runnable {
+    private Thread gameEngineThread; // The Thread that is running this game Engine
     GameEngine gameEngine;
-    QuestionDB qdb;
-    
-    public GameServer(){
-        qdb = new QuestionDB("triviaQuestions.txt");
-        gameEngine = new gameEngine(qdp);
+    public HashSet<ServerToClientConnection> connection; // The set of client connections
+    public int port = 1518;  
+    public boolean done = false;
+    public GameServer() throws FileNotFoundException{
+        gameEngine = new GameEngine("triviaQuestions.txt");
+        gameEngineThread = new Thread(gameEngine);
+        this.connection = new HashSet<ServerToClientConnection>();
     }
-    public synchronized int addPlayer(String name, TriviaNite client) {
-        return gameEngine.addPlayer(name, client);
-    }
+   
     public void run() {
-        
-        long currentTime = System.currentTimeMillis();
-        while (!gameEngine.isDone()) {
-            debug.println(10, "(GameServer.run) Executing...");
-            // Compute elapsed time since last iteration
-            long newTime = System.currentTimeMillis();
-            if(!gameEngine.getP)
-            
-            
+         gameEngineThread.start();
+        try {
+            // Create a server socket bound to the given port
+            ServerSocket serverSocket = new ServerSocket(port);
 
-            try {
-                Thread.sleep(100);
-            } catch (Exception e) { }
-        } 
+            while (!done) {
+                // Wait for a client request, establish new thread, and repeat
+                Socket clientSocket = serverSocket.accept();
+                addConnection(clientSocket);
+            }
+        } catch (Exception e) {
+            System.err.println("ABORTING: An error occurred while creating server socket. " + e.getMessage());
+            System.exit(1);
+        }
+  
     }
-
+  public void addConnection(Socket clientSocket) {
+        String name = clientSocket.getInetAddress().toString();
+        System.out.println("Jeprody: Connecting to client: " + name);
+        ServerToClientConnection c = new  ServerToClientConnection(clientSocket, name);
+        connection.add(c);
+        c.start(); // Start the thread.
+   
+}
 }
