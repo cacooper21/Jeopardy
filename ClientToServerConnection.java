@@ -4,7 +4,7 @@ import java.io.*;
 
 public class ClientToServerConnection extends Thread {
     Player p;
-    GameServer server;
+    static GameServer server;
     public Socket socket;
     public String name;
     public boolean done;
@@ -30,7 +30,7 @@ public class ClientToServerConnection extends Thread {
                 in = new Scanner(socket.getInputStream());
                 connectionStarted = true;
                 while(!done){
-
+                    
                 }
             }
             catch (IOException e) {
@@ -41,4 +41,7 @@ public class ClientToServerConnection extends Thread {
 
             }
 }
+public static void main(String[] args)throws FileNotFoundException{
+             
+            }
 }

@@ -11,6 +11,12 @@ public class ServerToClientConnection {
             this.name = name;
         }
         public void start(){
+            try{
+                out = new PrintWriter(socket.getOutputStream(), true);
+            }catch (Exception e) {
+            System.err.println("ABORTING: An error occurred while creating server socket. " + e.getMessage());
+            System.exit(1);
+        }
             
         }
 }

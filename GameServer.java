@@ -38,4 +38,8 @@ public class GameServer implements Runnable {
         c.start(); // Start the thread.
    
 }
+ public static void main(String[] args)throws FileNotFoundException{
+        GameServer s = new GameServer();
+                s.run();
+            }
 }

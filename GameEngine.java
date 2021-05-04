@@ -117,7 +117,7 @@ public class GameEngine implements Runnable {
      * @param playerID Which player...
      * @param choice which choice...
      **/
-    public void makeChoice(int playerID, int choice) {
+    public void makeChoice(int playerID, int choice) { //should this e done y server?
         if (choice == currentAnswer) {
             // CORRECT!  Score is the time difference between posting and selecting in 10th of seconds decreasing.
             long timeTaken = System.currentTimeMillis() - questionStartTime;
