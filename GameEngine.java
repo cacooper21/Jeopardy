@@ -91,14 +91,19 @@ public class GameEngine implements Runnable {
     // Inform the players of the next question
     private synchronized void informGameClientsOfQuestion(Question currentQuestion) {
         for (Player p: players) {
-            p.client.updateQuestion(currentQuestion);
+            p.clientConnection.updateQuestion(currentQuestion);
         }
     }
     
     // Inform the players of the answer (and all the other players' scores)
     private synchronized void informGameClientsOfAnswer(int currentAnswer) {
+        String scores = "";
+         for (Player p: players) {
+            scores+= "#" + p.getName() + "@" + p.getScore();
+         }
         for (Player p: players) {
-            p.client.postAnswer(currentAnswer, players);
+        
+            p.clientConnection.postAnswer(currentAnswer, scores);
         }
     }
     
@@ -107,7 +112,7 @@ public class GameEngine implements Runnable {
      * @param name The name of the player
      * @returns The index ID of this player
      **/
-    public int addPlayer(TriviaNite client, String name) {
+    public int addPlayer(ServerToClientConnection client, String name) {
         players.add(new Player(client, name));
         return players.size()-1;
     }

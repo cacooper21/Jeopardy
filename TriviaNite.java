@@ -17,7 +17,6 @@ import java.util.Enumeration;
 
 public class TriviaNite extends JFrame {
     public static final int MAX_CHOICES = 8;   // Maximum choices allowed
-    public String questionFileName = "triviaQuestions.txt"; /// The name of file with the question DB -- not stored here if doing Network version!
     
     private GameEngine gameEngine;   // The Game Engine
     private Thread gameEngineThread; // The Thread that is running this game Engine
@@ -28,7 +27,15 @@ public class TriviaNite extends JFrame {
     Question currentQuestion = null; // The current question
     JDialog answerWindow;            // A window to show the answer and player scores (between questions)
     JTextArea answerTextArea;        // The text area hold the answer and scores
-    
+    ClientToServerConnection clientConnection;
+    public static class PlayerScores {
+        String name;
+        String score;
+        public PlayerScores(String name, String score){
+            this.name = name;
+            this.score = score;
+        }
+    }
     public TriviaNite() {
         setLocation(100, 100);
         setTitle("Trivia Nite");
@@ -87,22 +94,11 @@ public class TriviaNite extends JFrame {
 
         // Setup the answer window
         setupAnswerWindow();
+        
+       
     }
 
-    // Helper function to start up a game engine
-    //   In a network version this would NOT be used
-    private void createGame() {
-        if (gameEngine == null) {
-            try {
-                gameEngine = new GameEngine(questionFileName);
-                gameEngineThread = new Thread(gameEngine);
-                gameEngineThread.start();
-            } catch (FileNotFoundException e) {
-                System.err.println("Error: The file " + questionFileName + " could not be loaded.");
-                System.err.println(e.getMessage());
-            }
-        }
-    }
+    
     
     // Helper function to setup the menu bar
     private void setupMenuBar() {
@@ -113,14 +109,17 @@ public class TriviaNite extends JFrame {
         menu = new JMenu("Game");
         menuAction = new AbstractAction("Start Game") {
                 public void actionPerformed(ActionEvent event) {
+                     //set up client connection
+                
                     // "Connect to" the game -- in our case we will just start up a game.
                     // First get the name
                     String name = JOptionPane.showInputDialog("Please enter your name.");
-
-                    createGame();  // In a network version you would NOT use this!
+                     clientConnection = new ClientToServerConnection(TriviaNite.this, name);
+                     clientConnection.start();
+                    //createGame();  // In a network version you would NOT use this! use in gameserver
                     
-                    // "Register" the player
-                    playerID = gameEngine.addPlayer(TriviaNite.this, name);
+                    // "Register" the player send request to server and wait for response, handled by client to server
+                    //playerID = gameEngine.addPlayer(TriviaNite.this, name);
                 }
             };
         menuAction.putValue(Action.SHORT_DESCRIPTION, "Join the game");
@@ -129,7 +128,7 @@ public class TriviaNite extends JFrame {
         mbar.add(menu);
         setJMenuBar(mbar);
     }
-
+   
     // Set up the answer window - used for the answer and the current list of players and scores
     private void setupAnswerWindow() {
         answerWindow = new JDialog(this, "Answer and Scores");
@@ -189,7 +188,7 @@ public class TriviaNite extends JFrame {
      * @param players The list of all players (so one can see their current scores)
      * For simplicity we will just make it a message dialog box.  Nothing fancy!
      **/
-    public synchronized void postAnswer(int answer, ArrayList<Player> players) {
+    public synchronized void postAnswer(int answer, ArrayList<PlayerScores> players) {
         StringBuilder message = new StringBuilder();
         if (currentQuestion != null) {
             // Could be that the answer is posted for previous question - so ignore that part then.
@@ -198,8 +197,8 @@ public class TriviaNite extends JFrame {
             message.append("\n\n");
         }
         message.append("Scores:\n=======\n");
-        for (Player p: players) {
-            message.append(p.getName() + ": " + p.getScore() + "\n");
+        for (PlayerScores p: players) {
+            message.append(p.name + ": " + p.score + "\n");
         }
         answerTextArea.setText(message.toString());
         answerWindow.pack();
