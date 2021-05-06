@@ -21,6 +21,7 @@ public class GameServer implements Runnable {
             ServerSocket serverSocket = new ServerSocket(port);
 
             while (!done) {
+                System.out.println("listening in on connection");
                 // Wait for a client request, establish new thread, and repeat
                 Socket clientSocket = serverSocket.accept();
                 addConnection(clientSocket);

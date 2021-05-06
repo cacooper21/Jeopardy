@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ServerToClientConnection {
+public class ServerToClientConnection extends Thread{
     Socket socket;
         PrintWriter out;
         boolean done;
@@ -21,7 +21,8 @@ public class ServerToClientConnection {
             done = false;
             this.name = name;
         }
-        public void start(){
+        @Override
+        public void run(){
             try{
                  in = new Scanner(socket.getInputStream());
                 out = new PrintWriter(socket.getOutputStream(), true);
@@ -39,6 +40,11 @@ public class ServerToClientConnection {
             System.out.print("Server to Client Connection, Processing Line: " + line );
             if(line.startsWith("JOIN")){
                 joinServer(line);
+            }
+            else if(line.startsWith("CHOICE")){
+                String[] arr1 = line.split(" ",2);
+                    int choice = Integer.parseInt(arr1[1]);
+                    engine.makeChoice(playerID, choice);
             }
         }
         public void joinServer(String line){

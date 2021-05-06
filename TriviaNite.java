@@ -70,7 +70,8 @@ public class TriviaNite extends JFrame {
                         }
                         assert(choice >= 0);   // If it isn't there is a coding error somewhere!
                         // Inform the Game Engine that this choice was made
-                        gameEngine.makeChoice(playerID, choice);
+                        
+                        clientConnection.sendToServer("CHOICE " + choice);
                     } else {
                         System.out.println("ERROR: Action was not a button? " + e.getSource());
                     }
