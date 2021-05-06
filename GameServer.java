@@ -5,11 +5,13 @@ public class GameServer implements Runnable {
     private Thread gameEngineThread; // The Thread that is running this game Engine
     GameEngine gameEngine;
     public HashSet<ServerToClientConnection> connection; // The set of client connections
-    public int port = 1518;  
+    public int port;
+     public static final int DEFAULT_PORT = 1518;  
     public boolean done = false;
     public String questionFileName = "triviaQuestions.txt"; /// The name of file with the question DB -- not stored here if doing Network version!
 
-    public GameServer() throws FileNotFoundException{
+    public GameServer(int port) throws FileNotFoundException{
+        this.port = port;
         createGame();
         this.connection = new HashSet<ServerToClientConnection>();
     }
@@ -55,7 +57,18 @@ public class GameServer implements Runnable {
         }
     }
  public static void main(String[] args)throws FileNotFoundException{
-        GameServer s = new GameServer();
+     int thePort = DEFAULT_PORT;
+         // Set the port if specified
+                if (args.length > 0) {
+                    try {
+                        thePort = Integer.parseInt(args[0]);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Usage: java ChatServer [PORT]");
+                        System.err.println("       PORT must be an integer.");
+                        System.exit(1);
+                    }
+                }
+        GameServer s = new GameServer(thePort);
                 s.run();
             }
 }

@@ -13,8 +13,8 @@ public class ClientToServerConnection extends Thread {
     public Scanner in;
     public boolean connectionStarted;
     public boolean connectionFailed;
-    private String hostname = "127.0.0.1";  // Default is local host
-    private int port = 1518;                // Default port is 1518
+    public String hostname = "127.0.0.1";  // Default is local host
+    public int port = 1518;                // Default port is 1518
     private TriviaNite app;
     PrintWriter out;
  

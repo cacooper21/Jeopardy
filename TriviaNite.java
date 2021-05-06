@@ -108,7 +108,7 @@ public class TriviaNite extends JFrame {
         JMenuItem menuItem;
         Action menuAction;
         menu = new JMenu("Game");
-        menuAction = new AbstractAction("Start Game") {
+        menuAction = new AbstractAction("Choose Name") {
                 public void actionPerformed(ActionEvent event) {
                      //set up client connection
                 
@@ -116,7 +116,7 @@ public class TriviaNite extends JFrame {
                     // First get the name
                     String name = JOptionPane.showInputDialog("Please enter your name.");
                      clientConnection = new ClientToServerConnection(TriviaNite.this, name);
-                     clientConnection.start();
+                    
                     //createGame();  // In a network version you would NOT use this! use in gameserver
                     
                     // "Register" the player send request to server and wait for response, handled by client to server
@@ -126,6 +126,38 @@ public class TriviaNite extends JFrame {
         menuAction.putValue(Action.SHORT_DESCRIPTION, "Join the game");
         menuItem = new JMenuItem(menuAction);
         menu.add(menuItem);
+
+        menuAction = new AbstractAction("Change Server IP") {
+            public void actionPerformed(ActionEvent e) {
+                String newHostName = JOptionPane.showInputDialog("Please enter a server IP/Hostname.\nThis only takes effect after the next connection attempt.\nCurrent server address: " + clientConnection.hostname);
+                if (newHostName != null && newHostName.length() > 0)
+                    clientConnection.hostname = newHostName;
+            }
+        };
+        menuAction.putValue(Action.SHORT_DESCRIPTION, "Change server IP address.");
+        menuItem = new JMenuItem(menuAction);
+        menu.add(menuItem);
+
+        menuAction = new AbstractAction("Change Port") {
+            public void actionPerformed(ActionEvent e) {
+                 String newPort = JOptionPane.showInputDialog("Please enter a port numbber. This only takes effect after the next connection attempt.\nCurrent server address: " + clientConnection.port);
+                 clientConnection.port = Integer.parseInt(newPort);
+                 
+            }
+        };
+        menuAction.putValue(Action.SHORT_DESCRIPTION, "Change The port");
+        menuItem = new JMenuItem(menuAction);
+        menu.add(menuItem);
+
+        menuAction = new AbstractAction("Start Game") {
+            public void actionPerformed(ActionEvent e) {
+                 clientConnection.start();
+            }
+        };
+        menuAction.putValue(Action.SHORT_DESCRIPTION, "Start the game");
+        menuItem = new JMenuItem(menuAction);
+        menu.add(menuItem);
+
         mbar.add(menu);
         setJMenuBar(mbar);
     }

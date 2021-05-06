@@ -46,6 +46,7 @@ public class ServerToClientConnection extends Thread{
                     int choice = Integer.parseInt(arr1[1]);
                     engine.makeChoice(playerID, choice);
             }
+            
         }
         public void joinServer(String line){
             String name = line.substring(5); //grab name from line
