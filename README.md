@@ -8,3 +8,5 @@ Team Contributions:
   code cleanup and formatting, added Headers to code. 
   
   Christian:  Assisted with the development of the client and server and set up repository
+
+  Aden : Assisted with the development of the client and server
