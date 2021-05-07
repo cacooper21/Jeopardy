@@ -2,12 +2,44 @@
 # Each line is comma separated
 # This simple approach means it can be Question, ChoiceA, ChoiceB, etc.
 # We use the notion that the first choice is the answer.
-What is 1+1?, 2, 1, 3, 4
-What is your favorite color?, Yellow, Blue, Green, Red, Orange, Magenta
+Which allows the storage of a null key and null values?, Hashmap, Hashtable, Hashbrown, None of the above
+java.util.Collections is a?, Class, Interface, Object, Abstract
+Which of those doesn’t have an index based structure?, Set, List, Map, Table
+Which of those allows duplicate elements?, List, Set, All, None of the above
+Which of those is synchronized?, Vector, ArrayList, LinkedList, PartsList
+HashSet internally uses?, HashMap, List, Collection, Set
+Vector extends which of these?, AbstractList, ArrayList, LinkedList, None of the above
 What is the capital of France?, Paris, Europe, London, Marseille
-
+What does LinkedHashSet implement?, All of the above, Cloneable, Serializable, Set
+Which interface should be implemented for sorting on basis of many criteria’s?, Comparator, Comparable, Serializable, Computational
+Which List is synchronized?, Both, Neither, Vector, CopyOnWriteArrayList
+The default capacity of a Vector is?, 10, 12, 8, 16
+Which is best suited to a multi-threaded environment?, ConcurrentHashMap, WeakHashMap, Hashtable, HashMap
+An unordered array has a time complexity of?, O(n), O(log n), O(n+1), O(1)
+The default capacity of an ArrayList is?, 10, 12, 16, 1
+Which of the following will not directly cause a thread to stop?, notify(), wait(), InputStream access, sleep()
+Which of these assortment categories has the flexibility to grow dynamically?, ArrayList, Array, Arrays, List
+A HashMap permits the existence of?, Both, None of the above, null values, one null value
+Which of the following is thread safe?, StringBuffer, StringBuilder, Both, None of the above
+What is the name of the method used to start a thread execution?, start(), init(), run(), resume()
+Which of the following will directly stop the execution of a Thread?, wait(), notify(), notifyAll()
+Which method must be defined by a class implementing the java.lang.Runnable interface?, public void run(), void run(), public void start(), void run(int priority)
+Which will contain the body of the thread?, run(), start(), stop(), main()
+Which is a valid keyword in java?, interface, string, Float, unsigned
+What is the numerical range of a char?, 0 to 65535, -128 to 127, 0 to 100, 0 to 32767
+What do you do when your computer or a program stops working?, Turn it off and on again, Bring it to the Apple Store, Get A PC, Hit it with a hammer
+Who invented Linux?, Linus Torvalds, Linus Tech Tips, the Linux Penguin, Steve Wozniak
+Who invented Git?, Linus Torvalds, Bill Gates, Steve Jobs, MIT
+Which Operating System is the majority backbone of the Internet?, Linux, Mac OS 10.12.6, MS Windows 95, PotatOS
+What is the Capital of Canada?, Ottawa, Ontario, Toronto, Montreal
+How many Bits are in a Byte?, 8, 1, 2, 4
+How many Bytes in a Kilobyte?, 1024, 1000, 512, about three fiddy
+Why was the Internet initially invented?, Military Purposes, Cat Videos, TikTok, Research
+When was the first Videogame ever made?, 1958, 1972, 1980, 1776
 # If your question or answer has a comma in it, use quotes
 "So, which algorithm is faster for sorting in general?", Merge Sort, Bubble Sort, Selection Sort, Insertion Sort, Shell Sort
+"Which class or interface defines the wait(), notify(),and notifyAll() methods?", Object, Thread, Runnable, Class
+
 
 # We could also have a different format that supported HTML based questions for more versatility.
 # But then I would recommend using an XML parser and being more flexible with everything.
