@@ -69,16 +69,16 @@ public class TriviaNite extends JFrame {
                             choiceButton.setEnabled(false);
                         }
                         assert(choice >= 0);   // If it isn't there is a coding error somewhere!
-                        // Inform the Game Engine that this choice was made
-                        
+                        // Inform the server that this choice was made
                         clientConnection.sendToServer("CHOICE " + choice);
-                    } else {
+                    } 
+                    else{
                         System.out.println("ERROR: Action was not a button? " + e.getSource());
                     }
                 }
-            };
+        };
         
-        for (int i = 0; i < MAX_CHOICES; i++) {
+        for (int i = 0; i < MAX_CHOICES; i++){
             JToggleButton button = new JToggleButton(choiceAction);
             button.setVisible(false);
             choices.add(button);
@@ -102,33 +102,28 @@ public class TriviaNite extends JFrame {
     
     
     // Helper function to setup the menu bar
-    private void setupMenuBar() {
+    private void setupMenuBar(){
         JMenuBar mbar = new JMenuBar();
         JMenu menu;
         JMenuItem menuItem;
         Action menuAction;
         menu = new JMenu("Game");
-        menuAction = new AbstractAction("Choose Name") {
-                public void actionPerformed(ActionEvent event) {
+        menuAction = new AbstractAction("Choose Name"){
+                public void actionPerformed(ActionEvent event){
                      //set up client connection
                 
                     // "Connect to" the game -- in our case we will just start up a game.
                     // First get the name
                     String name = JOptionPane.showInputDialog("Please enter your name.");
                      clientConnection = new ClientToServerConnection(TriviaNite.this, name);
-                    
-                    //createGame();  // In a network version you would NOT use this! use in gameserver
-                    
-                    // "Register" the player send request to server and wait for response, handled by client to server
-                    //playerID = gameEngine.addPlayer(TriviaNite.this, name);
                 }
-            };
+        };
         menuAction.putValue(Action.SHORT_DESCRIPTION, "Join the game");
         menuItem = new JMenuItem(menuAction);
         menu.add(menuItem);
 
-        menuAction = new AbstractAction("Change Server IP") {
-            public void actionPerformed(ActionEvent e) {
+        menuAction = new AbstractAction("Change Server IP"){
+            public void actionPerformed(ActionEvent e){
                 String newHostName = JOptionPane.showInputDialog("Please enter a server IP/Hostname.\nThis only takes effect after the next connection attempt.\nCurrent server address: " + clientConnection.hostname);
                 if (newHostName != null && newHostName.length() > 0)
                     clientConnection.hostname = newHostName;
@@ -138,8 +133,8 @@ public class TriviaNite extends JFrame {
         menuItem = new JMenuItem(menuAction);
         menu.add(menuItem);
 
-        menuAction = new AbstractAction("Change Port") {
-            public void actionPerformed(ActionEvent e) {
+        menuAction = new AbstractAction("Change Port"){
+            public void actionPerformed(ActionEvent e){
                  String newPort = JOptionPane.showInputDialog("Please enter a port numbber. This only takes effect after the next connection attempt.\nCurrent server address: " + clientConnection.port);
                  clientConnection.port = Integer.parseInt(newPort);
                  
@@ -149,8 +144,8 @@ public class TriviaNite extends JFrame {
         menuItem = new JMenuItem(menuAction);
         menu.add(menuItem);
 
-        menuAction = new AbstractAction("Start Game") {
-            public void actionPerformed(ActionEvent e) {
+        menuAction = new AbstractAction("Start Game"){
+            public void actionPerformed(ActionEvent e){
                  clientConnection.start();
             }
         };
@@ -163,7 +158,7 @@ public class TriviaNite extends JFrame {
     }
    
     // Set up the answer window - used for the answer and the current list of players and scores
-    private void setupAnswerWindow() {
+    private void setupAnswerWindow(){
         answerWindow = new JDialog(this, "Answer and Scores");
         answerTextArea = new JTextArea(10, 40);
         answerTextArea.setEditable(false);
@@ -195,15 +190,16 @@ public class TriviaNite extends JFrame {
         questionArea.setText("<html><center><font face=\"Serif\" size=\"30\">" + question.question + "</font></center></html>");
         int i = 0;
         choices.clearSelection();
-        for (Enumeration<AbstractButton> e = choices.getElements(); e.hasMoreElements(); ) {
+        for (Enumeration<AbstractButton> e = choices.getElements(); e.hasMoreElements(); ){
             JToggleButton choiceButton = (JToggleButton) e.nextElement();
-            if (i < question.choices.size()) {
+            if (i < question.choices.size()){
                 String choice = question.choices.get(i);
                 choiceButton.setText(buttonLabel(i, choice));
                 choiceButton.setVisible(true);
                 choiceButton.setSelected(false);
                 choiceButton.setEnabled(true);
-            } else {
+            } 
+            else{
                 choiceButton.setVisible(false);
             }
             i++;
@@ -223,14 +219,14 @@ public class TriviaNite extends JFrame {
      **/
     public synchronized void postAnswer(int answer, ArrayList<PlayerScores> players) {
         StringBuilder message = new StringBuilder();
-        if (currentQuestion != null) {
+        if (currentQuestion != null){
             // Could be that the answer is posted for previous question - so ignore that part then.
             message.append("Answer: (" + (char) ('A' + answer) + ") ");
             message.append(currentQuestion.choices.get(answer));
             message.append("\n\n");
         }
         message.append("Scores:\n=======\n");
-        for (PlayerScores p: players) {
+        for (PlayerScores p: players){
             message.append(p.name + ": " + p.score + "\n");
         }
         answerTextArea.setText(message.toString());
@@ -241,7 +237,7 @@ public class TriviaNite extends JFrame {
     /**
      * The main entry point that sets up the window and basic functionality
      */
-    public static void main(String[] args) {
+    public static void main(String[] args){
         TriviaNite frame = new TriviaNite();
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

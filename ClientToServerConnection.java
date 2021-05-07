@@ -1,3 +1,13 @@
+/***
+ * Client to Server:
+ * A simple Client to Server class that handles various commands
+ *
+ * Author: 
+ * Modified by: ...
+ * CSC340 - Spring 2021
+ *
+ * This handles Client connection to server and Player score.
+ ***/
 import java.net.*;
 import java.util.Scanner;
 import java.io.*;
@@ -27,8 +37,8 @@ public class ClientToServerConnection extends Thread {
         this.connectionFailed = false;
     }
      //Starts up the connection with the server
-        public void run() {
-            try {
+        public void run(){
+            try{
                 //socket that connects to the server
                 socket = new Socket(hostname, port);
                 in = new Scanner(socket.getInputStream());
@@ -40,22 +50,20 @@ public class ClientToServerConnection extends Thread {
                     processLine(line);
                 }
             }
-            catch (IOException e) {
+            catch (IOException e){
                 connectionStarted = true;
                 connectionFailed = true;
                 System.out.println("ERROR: " + e.getMessage());
-            
-
             }
-}
+        }
  //Send a command to the sever
-        public void sendToServer(String command) {
-            if (out == null) {
+        public void sendToServer(String command){
+            if (out == null){
                 System.out.println("DEBUG: not connected to server, cannot transmit");
                 return;
             }
             System.out.println("DEBUG: Transmitting command" + command);
-            synchronized (out) {
+            synchronized (out){
                 out.println(command);
                 out.flush();//make sure message is transmitted immediately
             }
@@ -76,7 +84,6 @@ public class ClientToServerConnection extends Thread {
 
                List<String> choices = Arrays.asList(arr2[1].split("#"));
           
-               
                Question question = new Question(questionText, choices);
                app.updateQuestion(question);
             }
@@ -93,8 +100,5 @@ public class ClientToServerConnection extends Thread {
                 }
                 app.postAnswer(answer, playerScores);
             }
-
-
         }
-
 }
