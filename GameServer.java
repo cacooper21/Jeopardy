@@ -2,8 +2,8 @@
  * Game Server:
  * A simple Server initialization and setup
  *
- * Author: 
- * Modified by: ...
+ * Author: Gio
+ * Modified by: Ells, Christian, Aden
  * CSC340 - Spring 2021
  *
  * This handles listening for client connections and opening up new sockets as needed.

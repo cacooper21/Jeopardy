@@ -2,8 +2,8 @@
  * Server to Client:
  * A simple Server to Client class that handles various commands
  *
- * Author: 
- * Modified by: ...
+ * Author: Gio
+ * Modified by: Ells, Christian, Aden
  * CSC340 - Spring 2021
  *
  * This handles Client connections and Client choices.

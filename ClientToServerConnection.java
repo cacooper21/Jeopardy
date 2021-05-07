@@ -2,8 +2,8 @@
  * Client to Server:
  * A simple Client to Server class that handles various commands
  *
- * Author: 
- * Modified by: ...
+ * Author: Gio 
+ * Modified by: Ells, Christian, Aden
  * CSC340 - Spring 2021
  *
  * This handles Client connection to server and Player score.
