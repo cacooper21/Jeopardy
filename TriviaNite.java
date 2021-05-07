@@ -3,7 +3,7 @@
  * A simple game to ask some trivia questions.
  *
  * Author: Christian Duncan
- * Modified by: ...
+ * Modified by: ...Ells
  * CSC340 - Spring 2021
  *
  * This is the Main GUI interface to the TriviaNite game.
