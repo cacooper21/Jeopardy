@@ -1,3 +1,13 @@
+/***
+ * Server to Client:
+ * A simple Server to Client class that handles various commands
+ *
+ * Author: 
+ * Modified by: ...
+ * CSC340 - Spring 2021
+ *
+ * This handles Client connections and Client choices.
+ ***/
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -14,13 +24,13 @@ public class ServerToClientConnection extends Thread{
         public Scanner in;
         int playerID;
         Question currentQuestion;
-    public ServerToClientConnection(Socket socket, String name, GameEngine engine) {
+    public ServerToClientConnection(Socket socket, String name, GameEngine engine){
             this.socket = socket;
             playerID = -1;
             this.engine = engine;
             done = false;
             this.name = name;
-        }
+    }
         @Override
         public void run(){
             try{
@@ -30,10 +40,11 @@ public class ServerToClientConnection extends Thread{
                     String line = in.nextLine();
                     processLine(line);
                 }
-            }catch (Exception e) {
+            }
+            catch (Exception e){
             System.err.println("ABORTING: An error occurred while creating server socket. " + e.getMessage());
             System.exit(1);
-        }
+            }
             
         }
         public void processLine(String line){
@@ -45,8 +56,7 @@ public class ServerToClientConnection extends Thread{
                 String[] arr1 = line.split(" ",2);
                     int choice = Integer.parseInt(arr1[1]);
                     engine.makeChoice(playerID, choice);
-            }
-            
+            }   
         }
         public void joinServer(String line){
             String name = line.substring(5); //grab name from line
@@ -54,13 +64,13 @@ public class ServerToClientConnection extends Thread{
             sendToClient("JOINED " + playerID);
         }
         //Send a command to the Client
-        public void sendToClient(String command) {
-            if (out == null) {
+        public void sendToClient(String command){
+            if (out == null){
                 System.out.println("DEBUG: not connected to server, cannot transmit");
                 return;
             }
             System.out.println("DEBUG: Transmitting command " + command);
-            synchronized (out) {
+            synchronized (out){
                 out.println(command);
                 out.flush();//make sure message is transmitted immediately
             }
@@ -76,14 +86,11 @@ public class ServerToClientConnection extends Thread{
                 finalCommand += "#" + choice;
             }
             sendToClient("UPDATEQUESTION " + finalCommand);
-             
-
-            
+                
         }
         public void postAnswer(int answer, String scores){
             //ANSWER answer#name1@score1#...
             String finalCommand = "ANSWER " + answer + scores; 
             sendToClient(finalCommand);
-
         }
 }

@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
 
-public class GameEngine implements Runnable {
+public class GameEngine implements Runnable{
     static final long DEFAULT_TIME_PER_QUESTION = 5000;  // 5 seconds by default
     
     QuestionDB qdb;          // The collection of Questions
@@ -28,7 +28,7 @@ public class GameEngine implements Runnable {
      * Constructor for the Game Engine
      * @param qdbFile The file containing the database of questions.
      **/
-    public GameEngine(String qdbFile) throws FileNotFoundException {
+    public GameEngine(String qdbFile) throws FileNotFoundException{
         qdb = new QuestionDB(qdbFile);
         timePerQuestion = DEFAULT_TIME_PER_QUESTION;
         done = false;  // Can trigger to get the engine to stop
@@ -41,19 +41,20 @@ public class GameEngine implements Runnable {
     public void run() {
         qdb.shuffle();  // Shuffle up the questions
 
-        try {
+        try{
             Thread.sleep(timePerQuestion);  // Sleep a few seconds before the first question is asked.
-        } catch (InterruptedException ignored) { }
+        } 
+        catch (InterruptedException ignored){ }
         
-        while (!done) {
+        while (!done){
             doOneRound();
         }
     }
 
     // Perform a single round of the question
-    private void doOneRound() {
+    private void doOneRound(){
         currentQuestion = qdb.nextQuestion();
-        if (currentQuestion == null) {
+        if (currentQuestion == null){
             // We went through them all.
             // Options:
             //    1) End the game -- done = true
@@ -71,9 +72,10 @@ public class GameEngine implements Runnable {
         
         // Sleep for the desired time limit
         questionStartTime = System.currentTimeMillis();  // Mark the start of this question (for scoring points)
-        try {
+        try{
             Thread.sleep(timePerQuestion);
-        } catch (InterruptedException ignored) {
+        } 
+        catch (InterruptedException ignored){
             // Argh, woken up... but continuing on as normal.
         }
 
@@ -81,9 +83,10 @@ public class GameEngine implements Runnable {
         informGameClientsOfAnswer(currentAnswer);
 
         // Sleep again for a short second before starting the next question
-        try {
+        try{
             Thread.sleep(timePerQuestion);
-        } catch (InterruptedException ignored) {
+        } 
+        catch (InterruptedException ignored){
             // Argh, woken up... but continuing on as normal.
         }
     }
@@ -96,11 +99,11 @@ public class GameEngine implements Runnable {
     }
     
     // Inform the players of the answer (and all the other players' scores)
-    private synchronized void informGameClientsOfAnswer(int currentAnswer) {
+    private synchronized void informGameClientsOfAnswer(int currentAnswer){
         String scores = "";
-         for (Player p: players) {
+        for (Player p: players){
             scores+= "#" + p.getName() + "@" + p.getScore();
-         }
+        }
         for (Player p: players) {
         
             p.clientConnection.postAnswer(currentAnswer, scores);
@@ -112,7 +115,7 @@ public class GameEngine implements Runnable {
      * @param name The name of the player
      * @returns The index ID of this player
      **/
-    public int addPlayer(ServerToClientConnection client, String name) {
+    public int addPlayer(ServerToClientConnection client, String name){
         players.add(new Player(client, name));
         return players.size()-1;
     }
@@ -123,12 +126,12 @@ public class GameEngine implements Runnable {
      * @param choice which choice...
      **/
     public void makeChoice(int playerID, int choice) { //should this e done y server?
-        if (choice == currentAnswer) {
+        if (choice == currentAnswer){
             // CORRECT!  Score is the time difference between posting and selecting in 10th of seconds decreasing.
             long timeTaken = System.currentTimeMillis() - questionStartTime;
             long timeRemaining = timePerQuestion - timeTaken;
             Player p = players.get(playerID);
-            if (timeRemaining > 0 && p != null) {
+            if (timeRemaining > 0 && p != null){
                 // There was time remaining and this is a valid player
                 p.updateScore((long) Math.round(timeRemaining* 0.01));  // 10 points per second remaining
             }
